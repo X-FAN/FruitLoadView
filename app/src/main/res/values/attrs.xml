@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FruitLoadView">
+        <!--阴影的颜色-->
+        <attr name="shadowColor" format="color" />
+        <!--弹起的最大高度-->
+        <attr name="maxHeight" format="dimension" />
+        <!--图片的高度-->
+        <attr name="fruitHeight" format="dimension" />
+        <!--图片的宽度-->
+        <attr name="fruitWidth" format="dimension" />
+        <!--一次循环的动画时间-->
+        <attr name="animatorDuration" format="integer" />
+        <attr name="fruitDrawable" format="reference" />
+    </declare-styleable>
+</resources>
