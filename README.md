@@ -35,6 +35,7 @@ public class RedAppleActivity extends AppCompatActivity {
 if you don't set some params,it will be set some default params in FruitLoadView
 
 **Attrs**
+
 you can custom some params in xml
 ```
 <?xml version="1.0" encoding="utf-8"?>
