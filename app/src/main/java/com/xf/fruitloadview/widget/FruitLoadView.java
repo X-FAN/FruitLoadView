@@ -81,6 +81,7 @@ public class FruitLoadView extends View {
         mStartHeight = mFruitHeight + maxHeight;
         mMinScale = (float) mFruitHeight / (float) mStartHeight;
         mPaint = new Paint();
+        mPaint.setAntiAlias(true);
         mPaint.setColor(shadowColor);
         initAnimator(animatorDuration);
         a.recycle();
@@ -114,7 +115,7 @@ public class FruitLoadView extends View {
             mScaleLargerAnimator.cancel();
             mScaleLargerAnimator.start();
         } else {
-            mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f, mMinScale, 1.0f).setDuration(duration);
+            mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f,mMinScale , 1.0f).setDuration(duration);
             mScaleLargerAnimator.setInterpolator(mTimeInterpolator);
             mScaleLargerAnimator.setRepeatCount(ValueAnimator.INFINITE);
             mScaleLargerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

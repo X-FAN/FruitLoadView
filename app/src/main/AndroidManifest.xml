@@ -18,7 +18,8 @@
         <activity android:name=".RedAppleActivity" />
         <activity android:name=".BlueAppleActivity" />
         <activity android:name=".LemonActivity" />
-        <activity android:name=".WatermelonActivity"></activity>
+        <activity android:name=".WatermelonActivity" />
+        <activity android:name=".AllActivity"></activity>
     </application>
 
 </manifest>

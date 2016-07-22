@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.xf.fruitloadview.AllActivity">
+
+    <com.xf.fruitloadview.widget.FruitLoadView
+        android:id="@+id/blue_apple"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fruitDrawable="@drawable/blue_apple"
+        app:maxHeight="200dp"
+        app:shadowColor="@color/blue_apple" />
+
+    <com.xf.fruitloadview.widget.FruitLoadView
+        android:id="@+id/lemon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:animatorDuration="500"
+        app:fruitDrawable="@drawable/lemon"
+        app:shadowColor="@color/lemon" />
+
+    <com.xf.fruitloadview.widget.FruitLoadView
+        android:id="@+id/red_apple"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fruitDrawable="@drawable/red_apple"
+        app:shadowColor="@color/red_apple" />
+
+    <com.xf.fruitloadview.widget.FruitLoadView
+        android:id="@+id/watermelon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:animatorDuration="400"
+        app:fruitDrawable="@drawable/watermelon"
+        app:shadowColor="@color/watermelon" />
+</LinearLayout>
