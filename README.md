@@ -22,13 +22,20 @@ This widget can be used as a load view.Enjoy it!
 ```
 public class RedAppleActivity extends AppCompatActivity {
 
+    FruitLoadView mFruitLoadView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_apple);
-        FruitLoadView fruitLoadView = (FruitLoadView) findViewById(R.id.fruit);
-        fruitLoadView.showLoading();
+        mFruitLoadView = (FruitLoadView) findViewById(R.id.fruit);
+        mFruitLoadView.showLoading();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mFruitLoadView.hideLoading();//ensure you call this method or it will cause leak memory
+        super.onDestroy();
     }
 }
 ```
