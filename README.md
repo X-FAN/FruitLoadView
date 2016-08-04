@@ -34,7 +34,7 @@ public class RedAppleActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mFruitLoadView.hideLoading();//ensure you call this method or it will case leak memory
+        mFruitLoadView.hideLoading();//ensure you call this method or it will cause leak memory
         super.onDestroy();
     }
 }
