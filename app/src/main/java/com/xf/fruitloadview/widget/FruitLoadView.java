@@ -2,6 +2,7 @@ package com.xf.fruitloadview.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,6 +15,9 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.xf.fruitloadview.BuildConfig;
 import com.xf.fruitloadview.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,8 +32,10 @@ public class FruitLoadView extends View {
     private int mFruitHeight;
     private int mFruitWidth;
     private boolean mIsDraw = false;
+    private boolean mIsMutliMode = false;
     private float mMinScale;
     private float mAnimatedValue = 1.0f;
+    private List<Drawable> mFruitDrables;
 
     private Drawable mFruitDrawable;
     private ValueAnimator mScaleLargerAnimator;
@@ -57,9 +63,12 @@ public class FruitLoadView extends View {
             return;
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FruitLoadView);
-        mFruitDrawable = a.getDrawable(R.styleable.FruitLoadView_fruitDrawable);
-        if (mFruitDrawable == null) {
-            throw new NullPointerException("fruit drawable is null");
+        handleMultiDrawable(a);
+        if (!mIsMutliMode) {
+            mFruitDrawable = a.getDrawable(R.styleable.FruitLoadView_fruitDrawable);
+            if (mFruitDrawable == null) {
+                throw new NullPointerException("fruit drawable is null");
+            }
         }
         int shadowColor = a.getColor(R.styleable.FruitLoadView_shadowColor, 0xFFE6E6E6);
         int animatorDuration = a.getInt(R.styleable.FruitLoadView_animatorDuration, 1000);
@@ -85,6 +94,28 @@ public class FruitLoadView extends View {
         mPaint.setColor(shadowColor);
         initAnimator(animatorDuration);
         a.recycle();
+    }
+
+    /**
+     * 处理多个drawable的情况
+     *
+     * @param a
+     */
+    private void handleMultiDrawable(TypedArray a) {
+        int resId = a.getResourceId(R.styleable.FruitLoadView_fruitDrawableArray, -1);
+        if (resId != -1) {
+            Resources resources = getResources();
+            mFruitDrables = new ArrayList<>();
+            int[] drawables = resources.getIntArray(resId);
+            for (int i = 0; i < drawables.length; i++) {
+                Drawable drawable = resources.getDrawable(drawables[i]);
+                mFruitDrables.add(drawable);
+            }
+            if (!mFruitDrables.isEmpty()) {
+                mIsMutliMode = true;
+                mFruitDrawable = mFruitDrables.get(0);
+            }
+        }
     }
 
 
@@ -126,6 +157,8 @@ public class FruitLoadView extends View {
                         Log.d("mAnimatedValue", "mAnimatedValue:" + mAnimatedValue);
                     }
                     mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
+                    if (mIsMutliMode) {
+                    }
                     invalidate();
                 }
             });
