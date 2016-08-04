@@ -1,7 +1,24 @@
 # FruitLoadView
 This widget can be used as a load view.Enjoy it!
-**Usage**
 
+**Usage**
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xf.fruitloadview.RedAppleActivity">
+
+    <com.xf.fruitloadview.widget.FruitLoadView
+        android:id="@+id/fruit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fruitDrawable="@drawable/red_apple"
+        app:shadowColor="@color/red_apple" />
+</RelativeLayout>
+```
 ```
 public class RedAppleActivity extends AppCompatActivity {
 
@@ -15,7 +32,10 @@ public class RedAppleActivity extends AppCompatActivity {
     }
 }
 ```
+if you don't set some params,it will be set some default params in FruitLoadView
+
 **Attrs**
+
 you can custom some params in xml
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -37,3 +57,5 @@ you can custom some params in xml
 ```
 
 **Gif**
+
+![Alt Text](https://github.com/X-FAN/resource/blob/master/gif/fruit.gif)
