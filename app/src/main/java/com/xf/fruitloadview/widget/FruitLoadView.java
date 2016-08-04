@@ -1,6 +1,5 @@
 package com.xf.fruitloadview.widget;
 
-import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -32,7 +32,6 @@ public class FruitLoadView extends View {
 
     private Drawable mFruitDrawable;
     private ValueAnimator mScaleLargerAnimator;
-    private TimeInterpolator mTimeInterpolator = new DecelerateInterpolator();
     private Paint mPaint;
     private RectF mOvalRectF;
 
@@ -115,13 +114,14 @@ public class FruitLoadView extends View {
             mScaleLargerAnimator.cancel();
             mScaleLargerAnimator.start();
         } else {
-            mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f,mMinScale , 1.0f).setDuration(duration);
-            mScaleLargerAnimator.setInterpolator(mTimeInterpolator);
+            mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f, mMinScale, 1.0f).setDuration(duration);
+            mScaleLargerAnimator.setInterpolator(new DecelerateInterpolator());
             mScaleLargerAnimator.setRepeatCount(ValueAnimator.INFINITE);
             mScaleLargerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     mAnimatedValue = (float) animation.getAnimatedValue();
+                    Log.d("mAnimatedValue", "mAnimatedValue:" + mAnimatedValue);
                     mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
                     invalidate();
                 }
@@ -153,6 +153,9 @@ public class FruitLoadView extends View {
      */
     public void hideLoading() {
         mIsDraw = false;
+        mScaleLargerAnimator.cancel();
         mScaleLargerAnimator.end();
+
+
     }
 }
