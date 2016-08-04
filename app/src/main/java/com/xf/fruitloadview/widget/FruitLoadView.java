@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.xf.fruitloadview.BuildConfig;
 import com.xf.fruitloadview.R;
 
 
@@ -121,7 +122,9 @@ public class FruitLoadView extends View {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     mAnimatedValue = (float) animation.getAnimatedValue();
-                    Log.d("mAnimatedValue", "mAnimatedValue:" + mAnimatedValue);
+                    if (BuildConfig.DEBUG) {
+                        Log.d("mAnimatedValue", "mAnimatedValue:" + mAnimatedValue);
+                    }
                     mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
                     invalidate();
                 }
@@ -155,7 +158,5 @@ public class FruitLoadView extends View {
         mIsDraw = false;
         mScaleLargerAnimator.cancel();
         mScaleLargerAnimator.end();
-
-
     }
 }
