@@ -2,6 +2,7 @@ package com.xf.fruitloadview.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,14 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import com.xf.fruitloadview.BuildConfig;
 import com.xf.fruitloadview.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by X-FAN on 2016/7/19.
  */
 public class FruitLoadView extends View {
+    private final String TAG = "Fruit";
     private int mWidth;
     private int mHeight;
     private int mOvalW;
@@ -27,9 +31,14 @@ public class FruitLoadView extends View {
     private int mStartHeight;
     private int mFruitHeight;
     private int mFruitWidth;
+    private int mIndex = 1;
+    private int mLength;
     private boolean mIsDraw = false;
+    private boolean mIsMutliMode = false;
+    private boolean mIsHasChanged = false;//是否已经变换过在达到最高前
     private float mMinScale;
     private float mAnimatedValue = 1.0f;
+    private List<Drawable> mFruitDrawables;
 
     private Drawable mFruitDrawable;
     private ValueAnimator mScaleLargerAnimator;
@@ -57,9 +66,12 @@ public class FruitLoadView extends View {
             return;
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FruitLoadView);
-        mFruitDrawable = a.getDrawable(R.styleable.FruitLoadView_fruitDrawable);
-        if (mFruitDrawable == null) {
-            throw new NullPointerException("fruit drawable is null");
+        handleMultiDrawable(a);
+        if (!mIsMutliMode) {
+            mFruitDrawable = a.getDrawable(R.styleable.FruitLoadView_fruitDrawable);
+            if (mFruitDrawable == null) {
+                throw new NullPointerException("fruit drawable is null");
+            }
         }
         int shadowColor = a.getColor(R.styleable.FruitLoadView_shadowColor, 0xFFE6E6E6);
         int animatorDuration = a.getInt(R.styleable.FruitLoadView_animatorDuration, 1000);
@@ -80,11 +92,36 @@ public class FruitLoadView extends View {
         mOvalH = (int) (mFruitHeight * 0.5) / 2;
         mStartHeight = mFruitHeight + maxHeight;
         mMinScale = (float) mFruitHeight / (float) mStartHeight;
+        Log.d(TAG, "mMin" + mMinScale);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(shadowColor);
         initAnimator(animatorDuration);
         a.recycle();
+    }
+
+    /**
+     * 处理多个drawable的情况
+     *
+     * @param a
+     */
+    private void handleMultiDrawable(TypedArray a) {
+        int resId = a.getResourceId(R.styleable.FruitLoadView_fruitDrawableArray, -1);
+        if (resId != -1) {
+            Resources resources = getResources();
+            TypedArray typedArray = resources.obtainTypedArray(resId);
+            mFruitDrawables = new ArrayList<>();
+            for (int i = 0; i < typedArray.length(); i++) {
+                Drawable drawable = typedArray.getDrawable(i);
+                mFruitDrawables.add(drawable);
+            }
+            if (!mFruitDrawables.isEmpty()) {
+                mIsMutliMode = true;
+                mFruitDrawable = mFruitDrawables.get(0);
+                mLength = mFruitDrawables.size();
+            }
+            typedArray.recycle();
+        }
     }
 
 
@@ -122,14 +159,31 @@ public class FruitLoadView extends View {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     mAnimatedValue = (float) animation.getAnimatedValue();
-                    if (BuildConfig.DEBUG) {
-                        Log.d("mAnimatedValue", "mAnimatedValue:" + mAnimatedValue);
+                    if (mAnimatedValue > 0.9f) {//认为达到最高点
+                        mIsHasChanged = false;
                     }
                     mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
+                    changeDrawable();
                     invalidate();
                 }
             });
             mScaleLargerAnimator.start();
+        }
+    }
+
+    /**
+     * 变更需要绘制的drawable
+     */
+    private void changeDrawable() {
+        //差值小于0.05f即认为在最低点
+        if (mIsMutliMode && !mIsHasChanged && (mAnimatedValue - mMinScale) < 0.05f) {
+            mFruitDrawable = mFruitDrawables.get(mIndex);
+            if (mIndex < mLength - 1) {
+                mIndex++;
+            } else {
+                mIndex = 0;
+            }
+            mIsHasChanged = true;
         }
     }
 

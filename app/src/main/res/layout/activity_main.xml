@@ -4,44 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.xf.fruitloadview.MainActivity">
+    tools:context="com.xf.fruitloadview.MainActivity"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/red_apple"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="red apple" />
+        android:layout_height="0dp"
+        android:text="red apple"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/blue_apple"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="blue apple" />
+        android:text="blue apple"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/lemon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="lemon" />
+        android:text="lemon"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/watermelon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="watermelon" />
+        android:text="watermelon"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/all"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:text="all" />
+        android:text="all"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/multi"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:text="multi"
+        android:layout_weight="1" />
 </LinearLayout>

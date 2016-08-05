@@ -12,5 +12,6 @@
         <!--一次循环的动画时间-->
         <attr name="animatorDuration" format="integer" />
         <attr name="fruitDrawable" format="reference" />
+        <attr name="fruitDrawableArray" format="reference" />
     </declare-styleable>
 </resources>

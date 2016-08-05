@@ -15,10 +15,10 @@ public class AllActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all);
-        FruitLoadView mRedApple = (FruitLoadView) findViewById(R.id.red_apple);
-        FruitLoadView mLemon = (FruitLoadView) findViewById(R.id.lemon);
-        FruitLoadView mBlueApple = (FruitLoadView) findViewById(R.id.blue_apple);
-        FruitLoadView mWatermelon = (FruitLoadView) findViewById(R.id.watermelon);
+        mRedApple = (FruitLoadView) findViewById(R.id.red_apple);
+        mLemon = (FruitLoadView) findViewById(R.id.lemon);
+        mBlueApple = (FruitLoadView) findViewById(R.id.blue_apple);
+        mWatermelon = (FruitLoadView) findViewById(R.id.watermelon);
         mRedApple.showLoading();
         mLemon.showLoading();
         mBlueApple.showLoading();
