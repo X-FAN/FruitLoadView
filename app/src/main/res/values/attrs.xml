@@ -11,7 +11,9 @@
         <attr name="fruitWidth" format="dimension" />
         <!--一次循环的动画时间-->
         <attr name="animatorDuration" format="integer" />
+        <!--指定一个drawable-->
         <attr name="fruitDrawable" format="reference" />
+        <!--指定一组drawable-->
         <attr name="fruitDrawableArray" format="reference" />
     </declare-styleable>
 </resources>

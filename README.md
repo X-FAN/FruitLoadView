@@ -45,8 +45,6 @@ if you don't set some params,it will be set some default params in FruitLoadView
 
 you can custom some params in xml
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
     <declare-styleable name="FruitLoadView">
         <!--阴影的颜色-->
         <attr name="shadowColor" format="color" />
@@ -58,11 +56,15 @@ you can custom some params in xml
         <attr name="fruitWidth" format="dimension" />
         <!--一次循环的动画时间-->
         <attr name="animatorDuration" format="integer" />
+        <!--指定一个drawable-->
         <attr name="fruitDrawable" format="reference" />
+        <!--指定一组drawable-->
+        <attr name="fruitDrawableArray" format="reference" />
     </declare-styleable>
-</resources>
 ```
 
 **Gif**
-
+ attr:fruitDrawable
 ![Alt Text](https://github.com/X-FAN/resource/blob/master/gif/fruit.gif)
+ attr:fruitDrawableArray
+![Alt Text](https://github.com/X-FAN/resource/blob/master/gif/multi.gif)
