@@ -64,7 +64,11 @@ you can custom some params in xml
 ```
 
 **Gif**
- attr:fruitDrawable
+ 
+ *attr:fruitDrawable*
+
 ![Alt Text](https://github.com/X-FAN/resource/blob/master/gif/fruit.gif)
- attr:fruitDrawableArray
+
+ *attr:fruitDrawableArray*
+
 ![Alt Text](https://github.com/X-FAN/resource/blob/master/gif/multi.gif)
