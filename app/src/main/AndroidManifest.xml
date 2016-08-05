@@ -20,7 +20,8 @@
         <activity android:name=".BlueAppleActivity" />
         <activity android:name=".LemonActivity" />
         <activity android:name=".WatermelonActivity" />
-        <activity android:name=".AllActivity"></activity>
+        <activity android:name=".AllActivity" />
+        <activity android:name=".MultiFruitActivity"></activity>
     </application>
 
 </manifest>
