@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -92,10 +91,10 @@ public class FruitLoadView extends View {
         mOvalH = (int) (mFruitHeight * 0.5) / 2;
         mStartHeight = mFruitHeight + maxHeight;
         mMinScale = (float) mFruitHeight / (float) mStartHeight;
-        Log.d(TAG, "mMin" + mMinScale);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(shadowColor);
+        mOvalRectF = new RectF();
         initAnimator(animatorDuration);
         a.recycle();
     }
@@ -162,7 +161,7 @@ public class FruitLoadView extends View {
                     if (mAnimatedValue > 0.9f) {//认为达到最高点
                         mIsHasChanged = false;
                     }
-                    mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
+                    mOvalRectF.set(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
                     changeDrawable();
                     invalidate();
                 }
