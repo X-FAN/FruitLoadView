@@ -147,27 +147,22 @@ public class FruitLoadView extends View {
 
 
     private void initAnimator(long duration) {
-        if (mScaleLargerAnimator != null && mScaleLargerAnimator.isRunning()) {
-            mScaleLargerAnimator.cancel();
-            mScaleLargerAnimator.start();
-        } else {
-            mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f, mMinScale, 1.0f).setDuration(duration);
-            mScaleLargerAnimator.setInterpolator(new DecelerateInterpolator());
-            mScaleLargerAnimator.setRepeatCount(ValueAnimator.INFINITE);
-            mScaleLargerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAnimatedValue = (float) animation.getAnimatedValue();
-                    if (mAnimatedValue > 0.9f) {//认为达到最高点
-                        mIsHasChanged = false;
-                    }
-                    mOvalRectF.set(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
-                    changeDrawable();
-                    invalidate();
+        mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f, mMinScale, 1.0f).setDuration(duration);
+        mScaleLargerAnimator.setInterpolator(new DecelerateInterpolator());
+        mScaleLargerAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mScaleLargerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedValue = (float) animation.getAnimatedValue();
+                if (mAnimatedValue > 0.9f) {//认为达到最高点
+                    mIsHasChanged = false;
                 }
-            });
-            mScaleLargerAnimator.start();
-        }
+                mOvalRectF.set(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
+                changeDrawable();
+                invalidate();
+            }
+        });
+        mScaleLargerAnimator.start();
     }
 
     /**
