@@ -1,5 +1,7 @@
 package com.xf.fruitloadview.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
@@ -34,13 +36,13 @@ public class FruitLoadView extends View {
     private int mLength;
     private boolean mIsDraw = false;
     private boolean mIsMutliMode = false;
-    private boolean mIsHasChanged = false;//是否已经变换过在达到最高前
     private float mMinScale;
     private float mAnimatedValue = 1.0f;
     private List<Drawable> mFruitDrawables;
 
     private Drawable mFruitDrawable;
-    private ValueAnimator mScaleLargerAnimator;
+    private ValueAnimator mDownAnimator;
+    private ValueAnimator mUpAnimator;
     private Paint mPaint;
     private RectF mOvalRectF;
 
@@ -147,37 +149,54 @@ public class FruitLoadView extends View {
 
 
     private void initAnimator(long duration) {
-        mScaleLargerAnimator = ValueAnimator.ofFloat(1.0f, mMinScale, 1.0f).setDuration(duration);
-        mScaleLargerAnimator.setInterpolator(new DecelerateInterpolator());
-        mScaleLargerAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mScaleLargerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mDownAnimator = ValueAnimator.ofFloat(1.0f, mMinScale).setDuration(duration / 2);
+        mDownAnimator.setInterpolator(new DecelerateInterpolator());
+        mDownAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mAnimatedValue = (float) animation.getAnimatedValue();
-                if (mAnimatedValue > 0.9f) {//认为达到最高点
-                    mIsHasChanged = false;
-                }
-                mOvalRectF.set(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
-                changeDrawable();
+                mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
                 invalidate();
             }
         });
-        mScaleLargerAnimator.start();
+        mDownAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mIsMutliMode) {
+                    changeDrawable();
+                }
+                mUpAnimator.start();
+            }
+        });
+        mDownAnimator.start();
+        mUpAnimator = ValueAnimator.ofFloat(mMinScale, 1.0f).setDuration(duration / 2);
+        mUpAnimator.setInterpolator(new DecelerateInterpolator());
+        mUpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedValue = (float) animation.getAnimatedValue();
+                mOvalRectF = new RectF(-mOvalW * mAnimatedValue, -mOvalH * mAnimatedValue, mOvalW * mAnimatedValue, mOvalH * mAnimatedValue);
+                invalidate();
+            }
+        });
+
+        mUpAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mDownAnimator.start();
+            }
+        });
     }
 
     /**
      * 变更需要绘制的drawable
      */
     private void changeDrawable() {
-        //差值小于0.05f即认为在最低点
-        if (mIsMutliMode && !mIsHasChanged && (mAnimatedValue - mMinScale) < 0.05f) {
-            mFruitDrawable = mFruitDrawables.get(mIndex);
-            if (mIndex < mLength - 1) {
-                mIndex++;
-            } else {
-                mIndex = 0;
-            }
-            mIsHasChanged = true;
+        mFruitDrawable = mFruitDrawables.get(mIndex);
+        if (mIndex < mLength - 1) {
+            mIndex++;
+        } else {
+            mIndex = 0;
         }
     }
 
@@ -196,7 +215,7 @@ public class FruitLoadView extends View {
      */
     public void showLoading() {
         mIsDraw = true;
-        mScaleLargerAnimator.start();
+        mDownAnimator.start();
     }
 
     /**
@@ -204,7 +223,9 @@ public class FruitLoadView extends View {
      */
     public void hideLoading() {
         mIsDraw = false;
-        mScaleLargerAnimator.cancel();
-        mScaleLargerAnimator.end();
+        mDownAnimator.cancel();
+        mDownAnimator.end();
+        mUpAnimator.cancel();
+        mUpAnimator.end();
     }
 }
